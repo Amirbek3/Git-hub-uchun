@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Futbol dunyosi</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5ef;--ink:#14221a;--mut:#58675d;--turf:#256a3a;--turf2:#2d7b44;--line:#ffffffcc;--card:#fff;--bd:#d6dccf;--y:#f2c200;--r:#d7263d;--ok:#1f8a4c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a13;--ink:#eef3ea;--mut:#a3b3a8;--turf:#1c4f2c;--turf2:#215a33;--card:#18271d;--bd:#2c3f32}}
+:root[data-theme="dark"]{--bg:#0f1a13;--ink:#eef3ea;--mut:#a3b3a8;--turf:#1c4f2c;--turf2:#215a33;--card:#18271d;--bd:#2c3f32}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.55}
+.w{max-width:1000px;margin:0 auto;padding:0 20px}
+header{padding:48px 0 24px}
+h1{font-size:clamp(2.6rem,9vw,5.5rem);line-height:.95;margin:0 0 12px;font-weight:800;letter-spacing:-.03em}
+header p{max-width:52ch;color:var(--mut);margin:0;font-size:1.1rem}
+h2{font-size:1.7rem;margin:0 0 6px;font-weight:800;letter-spacing:-.01em}
+section{padding:36px 0}
+.sub{color:var(--mut);margin:0 0 18px;max-width:60ch}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+button{font:inherit;font-weight:600;border:2px solid var(--ink);background:transparent;color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--bg)}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+button:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.pitch{position:relative;aspect-ratio:3/4;max-height:640px;margin:0 auto;border-radius:14px;overflow:hidden;
+background:repeating-linear-gradient(0deg,var(--turf) 0 10%,var(--turf2) 10% 20%);border:3px solid var(--line)}
+.pitch svg{position:absolute;inset:0;width:100%;height:100%}
+.pitch svg *{fill:none;stroke:var(--line);stroke-width:.5}
+.p{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:#fff;color:#14221a;font-weight:800;font-size:.72rem;display:grid;place-items:center;transition:left .7s cubic-bezier(.5,0,.2,1),top .7s cubic-bezier(.5,0,.2,1);box-shadow:0 0 0 3px #14221a55}
+.p.gk{background:var(--y)}
+.note{text-align:center;color:var(--mut);margin-top:12px;min-height:3em}
+.pitchwrap{max-width:460px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px}
+.card h3{margin:0 0 2px;font-size:1.15rem}
+.card .m{color:var(--mut);font-size:.9rem;margin-bottom:8px}
+.card p{margin:0;font-size:.95rem}
+.q{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:22px;max-width:640px}
+.q h3{margin:0 0 14px;font-size:1.2rem}
+.opts{display:grid;gap:8px}
+.opts button{text-align:left;border-radius:8px;border-width:1px;border-color:var(--bd);padding:12px 14px}
+.opts button.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.opts button.no{background:var(--r);border-color:var(--r);color:#fff}
+.stat{color:var(--mut);font-size:.9rem;margin-bottom:10px}
+footer{padding:30px 0 50px;color:var(--mut);font-size:.9rem;border-top:1px solid var(--bd);margin-top:20px}
+@media (prefers-reduced-motion:reduce){.p{transition:none}}
+</style>
+</head>
+<body>
+<div class="w">
+<header>
+<h1>Futbol<br>dunyosi</h1>
+<p>Dunyodagi eng ommabop oʻyin: taktika, afsonaviy futbolchilar va oʻz bilimingizni sinab koʻrish.</p>
+</header>
+
+<section id="taktika">
+<h2>Taktika taxtasi</h2>
+<p class="sub">Sxemani tanlang va futbolchilar maydonda qanday joylashishini koʻring.</p>
+<div class="btns" id="fbtns"></div>
+<div class="pitchwrap">
+<div class="pitch" id="pitch">
+<svg viewBox="0 0 100 133" preserveAspectRatio="none" aria-hidden="true">
+<rect x="3" y="3" width="94" height="127"/><line x1="3" y1="66.5" x2="97" y2="66.5"/>
+<circle cx="50" cy="66.5" r="11"/><rect x="24" y="3" width="52" height="20"/><rect x="38" y="3" width="24" height="8"/>
+<rect x="24" y="110" width="52" height="20"/><rect x="38" y="122" width="24" height="8"/>
+</svg>
+</div>
+<p class="note" id="fnote" aria-live="polite"></p>
+</div>
+</section>
+
+<section id="afsonalar">
+<h2>Afsonaviy futbolchilar</h2>
+<p class="sub">Mavqe boʻyicha saralang.</p>
+<div class="btns" id="pbtns"></div>
+<div class="grid" id="players"></div>
+</section>
+
+<section id="viktorina">
+<h2>Viktorina</h2>
+<p class="sub">5 ta savol. Javobni tanlang.</p>
+<div class="q" id="quiz"></div>
+</section>
+
+<footer>Futbol dunyosi · vanilla JS bilan yaratilgan</footer>
+</div>
+
+<script>
+// --- Taktika taxtasi ---
+var F = {
+ "4-3-3": {t:"Keng hujum: uchta hujumchi va oʻrtada uch yarimhimoyachi. Barcelona va Liverpul shu sxemada mashhur boʻlgan.",
+  p:[[50,92],[14,74],[38,77],[62,77],[86,74],[30,55],[50,59],[70,55],[16,28],[50,22],[84,28]]},
+ "4-4-2": {t:"Klassik sxema: ikki chiziqli toʻrtlik va ikkita hujumchi. Oddiy va muvozanatli.",
+  p:[[50,92],[14,74],[38,77],[62,77],[86,74],[14,52],[38,56],[62,56],[86,52],[38,26],[62,26]]},
+ "3-5-2": {t:"Uchta markaziy himoyachi, qanotlarda yuguruvchi yarimhimoyachilar va ikki hujumchi.",
+  p:[[50,92],[24,77],[50,80],[76,77],[9,52],[30,58],[50,50],[70,58],[91,52],[38,26],[62,26]]}
+};
+var pitch = document.getElementById("pitch"), dots = [];
+for (var i = 0; i < 11; i++) {
+  var d = document.createElement("div");
+  d.className = "p" + (i === 0 ? " gk" : "");
+  d.textContent = i + 1;
+  pitch.appendChild(d); dots.push(d);
+}
+var fb = document.getElementById("fbtns");
+function setF(name) {
+  F[name].p.forEach(function (xy, i) { dots[i].style.left = xy[0] + "%"; dots[i].style.top = xy[1] + "%"; });
+  document.getElementById("fnote").textContent = name + ": " + F[name].t;
+  Array.prototype.forEach.call(fb.children, function (b) { b.setAttribute("aria-pressed", b.textContent === name); });
+}
+Object.keys(F).forEach(function (n) {
+  var b = document.createElement("button");
+  b.textContent = n; b.onclick = function () { setF(n); }; fb.appendChild(b);
+});
+setF("4-3-3");
+
+// --- Futbolchilar ---
+var P = [
+ ["Pele","Braziliya","Hujumchi","Uchta jahon chempionati gʻolibi (1958, 1962, 1970)."],
+ ["Diyego Maradona","Argentina","Yarimhimoyachi","1986-yilgi jahon chempionatini yakka oʻzi hal qilgan."],
+ ["Lionel Messi","Argentina","Hujumchi","Oltin to‘pni sakkiz marta olgan; 2022-yilda jahon chempioni."],
+ ["Kristianu Ronaldu","Portugaliya","Hujumchi","Chempionlar ligasi tarixidagi eng koʻp gol muallifi."],
+ ["Yohan Kroyf","Niderlandiya","Yarimhimoyachi","“Total futbol” gʻoyasining yuzi."],
+ ["Zinedin Zidan","Fransiya","Yarimhimoyachi","1998-yilda Fransiyani jahon chempioni qilgan."],
+ ["Jilyuji Buffon","Italiya","Darvozabon","2006-yilda jahon chempioni, ikki avlod darvozaboni."],
+ ["Paolo Maldini","Italiya","Himoyachi","Butun karyerasini “Milan”da oʻtkazgan."]
+];
+var pos = ["Hammasi","Hujumchi","Yarimhimoyachi","Himoyachi","Darvozabon"], cur = "Hammasi";
+var pb = document.getElementById("pbtns"), pg = document.getElementById("players");
+function renderP() {
+  pg.innerHTML = "";
+  P.filter(function (p) { return cur === "Hammasi" || p[2] === cur; }).forEach(function (p) {
+    var c = document.createElement("div"); c.className = "card";
+    var h = document.createElement("h3"); h.textContent = p[0];
+    var m = document.createElement("div"); m.className = "m"; m.textContent = p[1] + " — " + p[2];
+    var t = document.createElement("p"); t.textContent = p[3];
+    c.appendChild(h); c.appendChild(m); c.appendChild(t); pg.appendChild(c);
+  });
+  Array.prototype.forEach.call(pb.children, function (b) { b.setAttribute("aria-pressed", b.textContent === cur); });
+}
+pos.forEach(function (n) {
+  var b = document.createElement("button");
+  b.textContent = n; b.onclick = function () { cur = n; renderP(); }; pb.appendChild(b);
+});
+renderP();
+
+// --- Viktorina ---
+var Q = [
+ ["2022-yilgi jahon chempionatida kim gʻolib boʻldi?",["Fransiya","Argentina","Braziliya","Xorvatiya"],1],
+ ["Jahon chempionatini eng koʻp yutgan terma jamoa qaysi?",["Germaniya","Italiya","Braziliya","Urugvay"],2],
+ ["Maydonda bir jamoadan nechta futbolchi oʻynaydi?",["10","11","12","9"],1],
+ ["2026-yilgi jahon chempionati qaysi mamlakatlarda oʻtkaziladi?",["AQSh, Kanada, Meksika","Ispaniya, Portugaliya","Yaponiya, Janubiy Koreya","Qatar"],0],
+ ["Birinchi jahon chempionati qaysi yilda oʻtkazilgan?",["1930","1950","1934","1966"],0]
+];
+var qi = 0, score = 0, box = document.getElementById("quiz");
+function showQ() {
+  box.innerHTML = "";
+  if (qi >= Q.length) {
+    var h = document.createElement("h3"); h.textContent = "Natija: " + score + " / " + Q.length;
+    var b = document.createElement("button"); b.textContent = "Qayta boshlash";
+    b.onclick = function () { qi = 0; score = 0; showQ(); };
+    box.appendChild(h); box.appendChild(b); return;
+  }
+  var s = document.createElement("div"); s.className = "stat"; s.textContent = "Savol " + (qi + 1) + " / " + Q.length;
+  var q = document.createElement("h3"); q.textContent = Q[qi][0];
+  var o = document.createElement("div"); o.className = "opts";
+  Q[qi][1].forEach(function (txt, k) {
+    var b = document.createElement("button"); b.textContent = txt;
+    b.onclick = function () {
+      var bs = o.children;
+      for (var j = 0; j < bs.length; j++) { bs[j].disabled = true; if (j === Q[qi][2]) bs[j].className = "ok"; }
+      if (k === Q[qi][2]) score++; else b.className = "no";
+      var n = document.createElement("button"); n.textContent = qi === Q.length - 1 ? "Natijani koʻrish" : "Keyingi savol";
+      n.style.marginTop = "14px"; n.onclick = function () { qi++; showQ(); };
+      box.appendChild(n); n.focus();
+    };
+    o.appendChild(b);
+  });
+  box.appendChild(s); box.appendChild(q); box.appendChild(o);
+}
+showQ();
+</script>
+</body>
+</html>
